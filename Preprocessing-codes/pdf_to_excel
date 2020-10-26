@@ -1,0 +1,4 @@
+import camelot
+file = "dataset_2020.pdf"
+tables = camelot.read_pdf(file, pages="1-end")
+tables.export("dataset_2020.xlsx", f = "excel")

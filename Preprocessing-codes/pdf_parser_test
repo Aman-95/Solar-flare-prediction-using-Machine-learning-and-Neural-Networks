@@ -1,0 +1,49 @@
+    # importing the required modules
+import PyPDF2
+
+
+def PDFsplit(start,end):
+    # creating input pdf file object
+    i=0
+    for pdf_file_no in range(start,end+1):
+        i=i+1
+        pdf=f'prf{pdf_file_no}.pdf'
+        #print(pdf)
+        pdfFileObj = open(pdf, 'rb')
+        # creating pdf reader object
+        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+        # creating pdf writer object for (i+1)th split
+        pdfWriter = PyPDF2.PdfFileWriter()
+        outputpdf=f'split_{pdf_file_no}.pdf'
+        # adding pages to pdf writer object
+        j=[]
+        page=1
+        ##
+        if  i in j:
+            page=2
+        else:
+            page=1
+        ##
+        pdfWriter.addPage(pdfReader.getPage(page))
+        # writing split pdf pages to pdf file
+        with open(outputpdf, "wb") as f:
+            pdfWriter.write(f)
+        # closing the input pdf file object
+        pdfFileObj.close()
+
+
+def PDFmerge(start,end):
+    pdfMerger = PyPDF2.PdfFileMerger()
+    i=-1
+    for pdf_file_no in range(start,end+1):
+        pdf=f'split_{pdf_file_no}.pdf'
+        with open(pdf, 'rb') as f:
+            pdfMerger.merge(pdf_file_no,pdf)
+        i = i + 1
+    with open('dataset_2020.pdf', 'wb') as k:
+        pdfMerger.write(k)
+m=2
+if m==1:
+    PDFsplit(2314,2332)
+else:
+    PDFmerge(2314,2332)
